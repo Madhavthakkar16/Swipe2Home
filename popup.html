@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EndOfDay</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      width: 360px;
+      padding: 16px;
+      background: #f4f7fb;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 18px;
+    }
+
+    .leave-section {
+      background: linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a
+      );
+      color: white;
+      text-align: center;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .leave-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+
+    .leave-time {
+      font-size: 42px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .remaining {
+      font-size: 13px;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-box {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .row:not(:last-child) {
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .label {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+    }
+
+    .settings {
+      margin-top: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    input {
+      flex: 1;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      transition: 0.2s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    #savedMessage {
+      text-align: center;
+      color: #16a34a;
+      font-size: 12px;
+      margin-top: 8px;
+      min-height: 16px;
+    }
+
+    #error {
+      color: #dc2626;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .version {
+      font-size: 11px;
+      margin-top: 4px;
+      color: #c0c4cc;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="title">
+      Swipe2Home
+    </div>
+
+    <div class="leave-section">
+
+      <div class="leave-label">
+        Leave At
+      </div>
+
+      <div id="leaveTime" class="leave-time">
+        --
+      </div>
+
+    </div>
+
+    <div class="section-title">
+      Today's Summary
+    </div>
+
+    <div class="info-box">
+
+      <div class="row">
+        <span class="label">Punch In</span>
+        <span id="punchIn" class="value">--</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Break Time</span>
+        <span id="breakTime" class="value">--</span>
+      </div>
+
+    </div>
+
+    <div class="settings">
+
+      <div class="section-title">
+        Shift Settings
+      </div>
+
+      <div class="input-row">
+
+        <input
+          type="number"
+          id="requiredHours"
+          step="0.5"
+          min="1"
+          placeholder="Hours"
+        >
+
+        <button id="saveHours">
+          Update
+        </button>
+
+      </div>
+
+      <div id="savedMessage"></div>
+
+    </div>
+
+    <p id="error"></p>
+
+    <div class="footer">
+      Made with ❤️ by Madhav
+      <div class="version" id="version">
+        Version --
+      </div>
+    </div>
+
+  </div>
+
+  <script src="popup.js"></script>
+
+</body>
+
+</html>
