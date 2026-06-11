@@ -1,4 +1,5 @@
 function loadAttendanceData() {
+
   chrome.tabs.query(
     {
       active: true,
@@ -28,6 +29,10 @@ function loadAttendanceData() {
           }
 
           document.getElementById(
+            "error"
+          ).innerText = "";
+
+          document.getElementById(
             "punchIn"
           ).innerText =
             response.punchIn;
@@ -41,54 +46,106 @@ function loadAttendanceData() {
             "leaveTime"
           ).innerText =
             response.leaveTime;
+
+          document.getElementById(
+            "weeklyWorked"
+          ).innerText =
+            response.weeklyWorked;
+
+          document.getElementById(
+            "weeklyRemaining"
+          ).innerText =
+            response.weeklyRemaining;
+
+          document.getElementById(
+            "weeklyTarget"
+          ).innerText =
+            response.weeklyTarget;
         }
       );
     }
   );
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-  const manifest = chrome.runtime.getManifest();
+    const manifest =
+      chrome.runtime.getManifest();
 
-document.getElementById(
-  "version"
-).innerText =
-  `Version ${manifest.version}`;
+    document.getElementById(
+      "version"
+    ).innerText =
+      `Version ${manifest.version}`;
 
-  chrome.storage.sync.get(
-    ["requiredHours"],
-    result => {
+    chrome.storage.sync.get(
+      [
+        "requiredHours",
+        "workingDays"
+      ],
+      result => {
 
-      document.getElementById(
-        "requiredHours"
-      ).value =
-        result.requiredHours || 8;
-    }
-  );
-
-  // Initial calculation
-  loadAttendanceData();
-
-  document
-    .getElementById("saveHours")
-    .addEventListener("click", () => {
-
-      const hours = parseFloat(
         document.getElementById(
           "requiredHours"
-        ).value
-      );
+        ).value =
+          result.requiredHours || 8;
 
-      chrome.storage.sync.set(
-        {
-          requiredHours: hours
-        },
+        document.getElementById(
+          "workingDays"
+        ).value =
+          result.workingDays || 5;
+      }
+    );
+
+    loadAttendanceData();
+
+    document
+      .getElementById(
+        "saveHours"
+      )
+      .addEventListener(
+        "click",
         () => {
 
-          // Recalculate immediately
-          loadAttendanceData();
+          const requiredHours =
+            parseFloat(
+              document.getElementById(
+                "requiredHours"
+              ).value
+            );
+
+          const workingDays =
+            parseInt(
+              document.getElementById(
+                "workingDays"
+              ).value
+            );
+
+          chrome.storage.sync.set(
+            {
+              requiredHours,
+              workingDays
+            },
+            () => {
+
+              document.getElementById(
+                "savedMessage"
+              ).innerText =
+                "Saved ✓";
+
+              setTimeout(() => {
+
+                document.getElementById(
+                  "savedMessage"
+                ).innerText = "";
+
+              }, 1500);
+
+              loadAttendanceData();
+            }
+          );
         }
       );
-    });
-});
+  }
+);

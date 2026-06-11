@@ -62,12 +62,6 @@
       margin-top: 4px;
     }
 
-    .remaining {
-      font-size: 13px;
-      margin-top: 4px;
-      opacity: 0.9;
-    }
-
     .section-title {
       font-size: 13px;
       font-weight: 600;
@@ -113,6 +107,7 @@
     .input-row {
       display: flex;
       gap: 8px;
+      margin-bottom: 8px;
     }
 
     input {
@@ -218,6 +213,29 @@
 
     </div>
 
+    <div class="section-title">
+      Weekly Progress
+    </div>
+
+    <div class="info-box">
+
+      <div class="row">
+        <span class="label">Worked</span>
+        <span id="weeklyWorked" class="value">--</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Remaining</span>
+        <span id="weeklyRemaining" class="value">--</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Target</span>
+        <span id="weeklyTarget" class="value">--</span>
+      </div>
+
+    </div>
+
     <div class="settings">
 
       <div class="section-title">
@@ -231,7 +249,20 @@
           id="requiredHours"
           step="0.5"
           min="1"
-          placeholder="Hours"
+          placeholder="Hours / Day"
+        >
+
+      </div>
+
+      <div class="input-row">
+
+        <input
+          type="number"
+          id="workingDays"
+          step="1"
+          min="1"
+          max="7"
+          placeholder="Days / Week"
         >
 
         <button id="saveHours">
