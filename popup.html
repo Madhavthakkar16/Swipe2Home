@@ -156,7 +156,7 @@
     #error {
       color: #dc2626;
       text-align: center;
-      margin-top: 10px;
+      margin: 10px 0;
       font-size: 13px;
     }
 
@@ -183,10 +183,12 @@
       Swipe2Home
     </div>
 
+    <div id="error"></div>
+
     <div class="leave-section">
 
       <div class="leave-label">
-        Leave At
+         You can Leave At
       </div>
 
       <div id="leaveTime" class="leave-time">
@@ -212,6 +214,59 @@
       </div>
 
     </div>
+
+
+    <div
+  id="attendanceWarning"
+  style="
+    display:none;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:#9a3412;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:16px;
+  "
+>
+  <div
+    style="
+      font-weight:600;
+      margin-bottom:8px;
+    "
+  >
+    Attendance data unavailable
+  </div>
+
+  <div
+    style="
+      font-size:13px;
+      margin-bottom:10px;
+    "
+  >
+    Open Attendance Logs to calculate:
+    <br>
+    • Leave Time
+    <br>
+    • Weekly Progress
+    <br>
+    • Break Tracking
+  </div>
+
+  <button
+    id="openAttendancePage"
+    style="
+      width:100%;
+      background:#2563eb;
+      color:white;
+      border:none;
+      padding:10px;
+      border-radius:8px;
+      cursor:pointer;
+    "
+  >
+    Open Attendance Logs
+  </button>
+</div>
 
     <div class="section-title">
       Weekly Progress
@@ -249,7 +304,7 @@
           id="requiredHours"
           step="0.5"
           min="1"
-          placeholder="Hours / Day"
+          placeholder="Hours per Day"
         >
 
       </div>
@@ -262,7 +317,7 @@
           step="1"
           min="1"
           max="7"
-          placeholder="Days / Week"
+          placeholder="Days per Week"
         >
 
         <button id="saveHours">
@@ -274,8 +329,6 @@
       <div id="savedMessage"></div>
 
     </div>
-
-    <p id="error"></p>
 
     <div class="footer">
       Made with ❤️ by Madhav

@@ -223,14 +223,24 @@ async function calculateAttendance() {
   }
 
   if (
-    logs.length === 0
-  ) {
-    return {
-      success: false,
-      message:
-        "Could not find attendance logs."
-    };
-  }
+  logs.length === 0
+) {
+
+  const isAttendancePage =
+    location.href.includes(
+      "/attendance/logs"
+    );
+
+  return {
+    success: false,
+    needsAttendancePage:
+      !isAttendancePage,
+    message:
+      isAttendancePage
+        ? "Attendance page is still loading..."
+        : "Open Attendance Logs."
+  };
+}
 
   const punches =
     logs
@@ -263,10 +273,14 @@ async function calculateAttendance() {
     ]);
 
   const requiredHours =
-    settings.requiredHours || 8;
+  Number(
+    settings.requiredHours
+  ) || 8;
 
   const workingDays =
-    settings.workingDays || 5;
+  Number(
+    settings.workingDays
+  ) || 5;
 
   const leaveTime =
     new Date(

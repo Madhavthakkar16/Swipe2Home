@@ -1,5 +1,10 @@
 function loadAttendanceData() {
 
+  const error =
+    document.getElementById(
+      "error"
+    );
+
   chrome.tabs.query(
     {
       active: true,
@@ -15,22 +20,59 @@ function loadAttendanceData() {
         response => {
 
           if (
+            chrome.runtime.lastError
+          ) {
+
+            document.getElementById(
+              "attendanceWarning"
+            ).style.display =
+              "none";
+
+            error.innerText =
+              "Open a Keka page or refresh the current tab.";
+
+            return;
+          }
+
+          if (
             !response ||
             !response.success
           ) {
 
+            if (
+              response?.needsAttendancePage
+            ) {
+
+              document.getElementById(
+                "attendanceWarning"
+              ).style.display =
+                "block";
+
+              error.innerText =
+                "";
+
+              return;
+            }
+
             document.getElementById(
-              "error"
-            ).innerText =
+              "attendanceWarning"
+            ).style.display =
+              "none";
+
+            error.innerText =
               response?.message ||
-              "Open a Keka page first or Refresh if already open.";
+              "Unable to fetch data.";
 
             return;
           }
 
           document.getElementById(
-            "error"
-          ).innerText = "";
+            "attendanceWarning"
+          ).style.display =
+            "none";
+
+          error.innerText =
+            "";
 
           document.getElementById(
             "punchIn"
@@ -100,6 +142,19 @@ document.addEventListener(
 
     loadAttendanceData();
 
+console.log("Interval started");
+
+setInterval(() => {
+
+  console.log(
+    "Refreshing...",
+    new Date().toLocaleTimeString()
+  );
+
+  loadAttendanceData();
+
+}, 3000);
+
     document
       .getElementById(
         "saveHours"
@@ -122,6 +177,23 @@ document.addEventListener(
               ).value
             );
 
+          if (
+            isNaN(
+              requiredHours
+            ) ||
+            isNaN(
+              workingDays
+            )
+          ) {
+
+            document.getElementById(
+              "savedMessage"
+            ).innerText =
+              "Enter valid values";
+
+            return;
+          }
+
           chrome.storage.sync.set(
             {
               requiredHours,
@@ -134,15 +206,82 @@ document.addEventListener(
               ).innerText =
                 "Saved ✓";
 
-              setTimeout(() => {
+              setTimeout(
+                () => {
 
-                document.getElementById(
-                  "savedMessage"
-                ).innerText = "";
+                  document.getElementById(
+                    "savedMessage"
+                  ).innerText =
+                    "";
 
-              }, 1500);
+                },
+                1500
+              );
 
               loadAttendanceData();
+            }
+          );
+        }
+      );
+
+    document
+      .getElementById(
+        "openAttendancePage"
+      )
+      ?.addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "leaveTime"
+          ).innerText =
+            "--";
+
+          document.getElementById(
+            "punchIn"
+          ).innerText =
+            "--";
+
+          document.getElementById(
+            "breakTime"
+          ).innerText =
+            "--";
+
+          document.getElementById(
+            "weeklyWorked"
+          ).innerText =
+            "--";
+
+          document.getElementById(
+            "weeklyRemaining"
+          ).innerText =
+            "--";
+
+          document.getElementById(
+            "weeklyTarget"
+          ).innerText =
+            "--";
+
+          chrome.tabs.query(
+            {
+              active: true,
+              currentWindow: true
+            },
+            tabs => {
+
+              const currentUrl =
+                new URL(
+                  tabs[0].url
+                );
+
+              chrome.tabs.update(
+                tabs[0].id,
+                {
+                  url:
+                    currentUrl.origin +
+                    "/#/me/attendance/logs"
+                }
+              );
             }
           );
         }
